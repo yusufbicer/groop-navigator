@@ -1,6 +1,6 @@
 
 import React from "react";
-import Button from "../ui/Button";
+import Button from "../ui/CustomButton";
 import Container from "../ui/Container";
 import { Play, ArrowRight, CheckCircle } from "lucide-react";
 

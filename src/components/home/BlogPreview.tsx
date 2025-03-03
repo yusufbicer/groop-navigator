@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Container from "../ui/Container";
-import Button from "../ui/Button";
+import Button from "../ui/CustomButton";
 import { ArrowRight } from "lucide-react";
 
 interface BlogPost {
