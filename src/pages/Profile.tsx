@@ -10,16 +10,8 @@ import CustomButton from "@/components/ui/CustomButton";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
-interface Profile {
-  id: string;
-  first_name: string | null;
-  last_name: string | null;
-  avatar_url: string | null;
-}
-
 const Profile: React.FC = () => {
-  const { user, isLoading } = useAuth();
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const { user, profile, isLoading, refreshProfile } = useAuth();
   const [isEditMode, setIsEditMode] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -33,31 +25,11 @@ const Profile: React.FC = () => {
       return;
     }
 
-    if (user) {
-      fetchProfile();
+    if (profile) {
+      setFirstName(profile.first_name || "");
+      setLastName(profile.last_name || "");
     }
-  }, [user, isLoading, navigate]);
-
-  const fetchProfile = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user?.id)
-        .single();
-
-      if (error) {
-        console.error("Error fetching profile:", error);
-        return;
-      }
-
-      setProfile(data);
-      setFirstName(data.first_name || "");
-      setLastName(data.last_name || "");
-    } catch (error) {
-      console.error("Error fetching profile:", error);
-    }
-  };
+  }, [user, profile, isLoading, navigate]);
 
   const handleSaveProfile = async () => {
     if (!user) return;
@@ -88,7 +60,7 @@ const Profile: React.FC = () => {
       });
       
       setIsEditMode(false);
-      fetchProfile();
+      refreshProfile();
     } catch (error) {
       console.error("Error updating profile:", error);
       toast({

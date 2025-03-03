@@ -8,7 +8,7 @@ import Container from "../ui/Container";
 import CustomButton from "../ui/CustomButton";
 
 const Header: React.FC = () => {
-  const { user, signOut } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const { toast } = useToast();
 
   const handleSignOut = async () => {
@@ -48,7 +48,7 @@ const Header: React.FC = () => {
               <div className="flex items-center">
                 <div className="hidden md:block mr-4">
                   <p className="text-white text-sm">
-                    Welcome, {user.user_metadata.first_name || 'User'}
+                    Welcome, {profile?.first_name || user.user_metadata.first_name || 'User'}
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">
