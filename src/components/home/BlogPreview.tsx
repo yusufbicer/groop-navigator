@@ -115,13 +115,13 @@ const BlogPreview: React.FC = () => {
                   <span className="text-xs text-white/70">{post.readTime}</span>
                 </div>
                 
-                <h4 className="text-xl font-semibold mb-3 text-white">
+                <h4 className="text-xl font-semibold mb-3 text-white h-16 line-clamp-2">
                   <Link to={`/blog/${post.id}`} className="hover:text-gradient transition-colors">
                     {post.title}
                   </Link>
                 </h4>
                 
-                <p className="text-white/70 mb-6">
+                <p className="text-white/70 mb-6 line-clamp-3">
                   {post.excerpt}
                 </p>
                 
