@@ -1,87 +1,70 @@
 
-import React from "react";
-import Container from "../ui/Container";
-import { FileText, Package, Truck, CreditCard } from "lucide-react";
+import React from 'react';
+import { ChevronRight, Truck, BarChart3, FileText } from 'lucide-react';
+import Container from '@/components/ui/Container';
 
 const HowItWorks: React.FC = () => {
   const steps = [
     {
-      icon: <FileText className="w-12 h-12 text-groop-accent" />,
-      title: "1. Register Your Vendors",
-      description: "Add your Turkish vendors to your Groop account. We'll connect with them to streamline the entire process."
+      id: 1,
+      title: 'Create Your Account',
+      description: 'Sign up for Groop in just a few minutes and get immediate access to our platform.',
+      icon: <FileText className="w-10 h-10 text-groop-purple" />,
     },
     {
-      icon: <Package className="w-12 h-12 text-groop-accent" />,
-      title: "2. Place Your Orders",
-      description: "Shop directly with your vendors as usual. They'll inform us when your items are ready to ship."
+      id: 2,
+      title: 'Connect Your Data',
+      description: 'Import your inventory, orders, and supplier information to centralize your operations.',
+      icon: <BarChart3 className="w-10 h-10 text-groop-purple" />,
     },
     {
-      icon: <Truck className="w-12 h-12 text-groop-accent" />,
-      title: "3. Consolidate & Ship",
-      description: "We collect all your orders in our Turkish warehouse, efficiently package them, and ship them as one consolidated shipment."
+      id: 3,
+      title: 'Track Your Imports',
+      description: 'Monitor your shipments in real-time with our intuitive dashboard and analytics.',
+      icon: <Truck className="w-10 h-10 text-groop-purple" />,
     },
-    {
-      icon: <CreditCard className="w-12 h-12 text-groop-accent" />,
-      title: "4. One Simple Payment",
-      description: "Pay a single invoice for all your orders, shipping costs, and customs fees, saving on multiple international transfers."
-    }
   ];
 
   return (
-    <section className="relative py-20 overflow-hidden bg-groop-black">
-      {/* Background elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute right-0 top-1/4 w-1/3 h-1/3 bg-gradient-radial from-groop-purple/10 to-transparent opacity-60"></div>
-        <div className="absolute left-0 bottom-1/4 w-1/3 h-1/2 bg-gradient-radial from-groop-accent/10 to-transparent opacity-50"></div>
-        
-        {/* Grid pattern overlay */}
-        <div 
-          className="absolute inset-0 opacity-5" 
-          style={{ 
-            backgroundImage: "linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px)",
-            backgroundSize: "40px 40px" 
-          }}
-        ></div>
-      </div>
-
+    <section className="py-20 bg-groop-black/80">
       <Container>
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-gradient text-sm font-medium uppercase tracking-wider mb-3">How It Works</h2>
-          <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-            Simple Process, Powerful Results
-          </h3>
-          <p className="text-lg text-white/70">
-            Our streamlined process makes importing from Turkey easier than ever before. Follow these simple steps to get started:
+        <div className="text-center mb-14">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">How It Works</h2>
+          <p className="text-white/70 max-w-2xl mx-auto text-lg">
+            Groop simplifies the import process with our easy-to-use platform. Follow these steps to get started.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, index) => (
+        <div className="grid md:grid-cols-3 gap-8">
+          {steps.map((step) => (
             <div 
-              key={index} 
-              className="glass-card p-6 text-center opacity-0 animate-fade-in"
-              style={{ animationDelay: `${(index + 1) * 200}ms` }}
+              key={step.id} 
+              className="glass-panel p-8 rounded-xl backdrop-blur-sm flex flex-col items-center text-center transition-transform hover:translate-y-[-5px]"
             >
-              <div className="flex justify-center mb-4">
-                <div className="w-24 h-24 flex items-center justify-center rounded-full bg-groop-purple/10 border border-groop-purple/20">
-                  {step.icon}
-                </div>
+              <div className="rounded-full bg-groop-purple/10 p-5 mb-6">
+                {step.icon}
               </div>
-              <h4 className="text-xl font-semibold mb-3 text-white">{step.title}</h4>
-              <p className="text-white/70">{step.description}</p>
+              <h3 className="text-xl font-bold text-white mb-3">
+                {step.title}
+              </h3>
+              <p className="text-white/70 mb-4">
+                {step.description}
+              </p>
+              <a href="#" className="mt-auto inline-flex items-center text-groop-purple hover:text-groop-accent">
+                Learn more <ChevronRight className="w-4 h-4 ml-1" />
+              </a>
             </div>
           ))}
         </div>
-
-        <div className="relative mt-16 pt-16 border-t border-white/10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h4 className="text-2xl font-semibold mb-4 text-white">
-              Ready to <span className="text-gradient">Transform</span> Your Import Process?
-            </h4>
-            <p className="text-lg text-white/70 mb-8">
-              Join thousands of businesses that have simplified their Turkish imports with Groop.
-            </p>
-          </div>
+        
+        <div className="mt-16 text-center">
+          <a 
+            href="/auth" 
+            className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-groop-purple text-white font-medium hover:bg-groop-accent transition-colors"
+          >
+            Get Started Now
+            <ChevronRight className="w-5 h-5 ml-2" />
+          </a>
         </div>
       </Container>
     </section>
