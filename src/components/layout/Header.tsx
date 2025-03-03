@@ -1,13 +1,16 @@
 
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Container from "../ui/Container";
 import Button from "../ui/CustomButton";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut, User } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +20,11 @@ const Header: React.FC = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <header
@@ -62,12 +70,43 @@ const Header: React.FC = () => {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" size="sm">
-              Log in
-            </Button>
-            <Button variant="primary" size="sm">
-              Sign up
-            </Button>
+            {user ? (
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <div className="w-8 h-8 rounded-full bg-groop-purple flex items-center justify-center">
+                    <User className="h-4 w-4 text-white" />
+                  </div>
+                  <span className="text-white/90 text-sm">
+                    {user.email?.split('@')[0]}
+                  </span>
+                </div>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  icon={<LogOut className="h-4 w-4" />}
+                  onClick={handleSignOut}
+                >
+                  Sign out
+                </Button>
+              </div>
+            ) : (
+              <>
+                <Button
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => navigate("/auth")}
+                >
+                  Log in
+                </Button>
+                <Button 
+                  variant="primary" 
+                  size="sm"
+                  onClick={() => navigate("/auth")}
+                >
+                  Sign up
+                </Button>
+              </>
+            )}
           </div>
 
           <button
@@ -117,20 +156,52 @@ const Header: React.FC = () => {
                 Blog
               </Link>
               <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
-                <Button
-                  variant="ghost"
-                  fullWidth
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Log in
-                </Button>
-                <Button
-                  variant="primary"
-                  fullWidth
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Sign up
-                </Button>
+                {user ? (
+                  <>
+                    <div className="flex items-center px-4 py-2 space-x-2">
+                      <div className="w-8 h-8 rounded-full bg-groop-purple flex items-center justify-center">
+                        <User className="h-4 w-4 text-white" />
+                      </div>
+                      <span className="text-white/90">
+                        {user.email?.split('@')[0]}
+                      </span>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      fullWidth
+                      icon={<LogOut className="h-4 w-4" />}
+                      onClick={() => {
+                        handleSignOut();
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Sign out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="ghost"
+                      fullWidth
+                      onClick={() => {
+                        navigate("/auth");
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Log in
+                    </Button>
+                    <Button
+                      variant="primary"
+                      fullWidth
+                      onClick={() => {
+                        navigate("/auth");
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Sign up
+                    </Button>
+                  </>
+                )}
               </div>
             </nav>
           </Container>
